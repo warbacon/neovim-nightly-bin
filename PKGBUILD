@@ -1,6 +1,6 @@
 _pkgname=neovim
 pkgname=neovim-nightly-bin
-pkgver=0.11.0+dev+1649+gc47496791a
+pkgver=0.11.0+dev+1660+g35c5e23107
 pkgrel=1
 pkgdesc='Fork of Vim aiming to improve user experience, plugins, and GUIs (nightly build)'
 arch=('x86_64')
@@ -19,22 +19,15 @@ provides=("$_pkgname=${pkgver/\+*/}" 'vim-plugin-runtime')
 conflicts=("$_pkgname")
 _date="$(date -u +%Y%m%d)"
 source=(
-    "$_pkgname-$_date.tar.gz::https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz"
-    "$_pkgname-$_date.tar.gz.sha256sum::https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz.sha256sum"
+    "$_pkgname-$_date.tar.gz::https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz"
 )
 b2sums=(
-    'SKIP'
     'SKIP'
 )
 
 pkgver() {
     cd nvim-linux-x86_64
     ./bin/nvim --version | awk 'NR == 1 { sub("NVIM v", ""); gsub("-", "+"); print $1 }'
-}
-
-prepare() {
-    sed -i "s/nvim-linux-x86_64/$_pkgname-$_date/" $_pkgname-$_date.tar.gz.sha256sum
-    sha256sum -c $_pkgname-$_date.tar.gz.sha256sum
 }
 
 check() {
